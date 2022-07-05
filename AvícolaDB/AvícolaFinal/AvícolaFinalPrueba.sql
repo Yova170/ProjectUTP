@@ -15,15 +15,15 @@ CREATE SCHEMA IF NOT EXISTS `avicoladb` DEFAULT CHARACTER SET utf8 COLLATE utf8_
 USE `avicoladb` ;
 
 -- -----------------------------------------------------
--- Table `avicoladb`.`Usuarios`
+-- Table `avicoladb`.`Avicultores`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`Usuarios` (
-  `IdUsuario` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `avicoladb`.`Avicultores` (
+  `IdAvicultor` INT NOT NULL AUTO_INCREMENT,
   `Cedula` VARCHAR(45) NULL,
   `Nombre` VARCHAR(45) NULL DEFAULT NULL,
   `Apellido` VARCHAR(45) NULL DEFAULT NULL,
   `Password` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`IdUsuario`))
+  PRIMARY KEY (`IdAvicultor`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
@@ -34,14 +34,14 @@ COLLATE = utf8_spanish_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`Fincas` (
   `idFincas` INT NOT NULL AUTO_INCREMENT,
-  `IdUsuario` VARCHAR(45) NULL DEFAULT NULL,
+  `IdAvicultor` INT NULL DEFAULT NULL,
   `Nombre` VARCHAR(45) NULL DEFAULT NULL,
   `Direccion` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`idFincas`),
-  INDEX `Cedula_idx` (`IdUsuario` ASC) VISIBLE,
-  CONSTRAINT `IdUsuario_Fk`
-    FOREIGN KEY (`IdUsuario`)
-    REFERENCES `avicoladb`.`Usuarios` (`IdUsuario`))
+  INDEX `Cedula_idx` (`IdAvicultor` ASC) VISIBLE,
+  CONSTRAINT `IdAvicultor_Fk`
+    FOREIGN KEY (`IdAvicultor`)
+    REFERENCES `avicoladb`.`Avicultores` (`IdAvicultor`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
