@@ -129,9 +129,9 @@ COLLATE = utf8_spanish_ci;
 
 
 -- -----------------------------------------------------
--- Table `avicoladb`.`alimento`
+-- Table `avicoladb`.`alimentos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`alimento` (
+CREATE TABLE IF NOT EXISTS `avicoladb`.`alimentos` (
   `IdAlimento` INT NOT NULL AUTO_INCREMENT,
   `NombreAlimento` VARCHAR(45) NOT NULL,
   `CantidadDisponible` INT NOT NULL,
@@ -374,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`galponalimento` (
   INDEX `IdGalpon_idx` (`IdGalpon` ASC) VISIBLE,
   CONSTRAINT `IdAlimento_idfk`
     FOREIGN KEY (`IdAlimento`)
-    REFERENCES `avicoladb`.`alimento` (`IdAlimento`),
+    REFERENCES `avicoladb`.`alimentos` (`IdAlimento`),
   CONSTRAINT `IdGalponAlimento_idfk`
     FOREIGN KEY (`IdGalpon`)
     REFERENCES `avicoladb`.`galpones` (`IdGalpon`))
