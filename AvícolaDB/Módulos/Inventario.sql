@@ -16,21 +16,21 @@ USE `AvicolaDB` ;
 
 
 -- -----------------------------------------------------
--- Table `AvicolaDB`.`Fincas`
+-- Table `avicoladb`.`Fincas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `AvicolaDB`.`Fincas` (
+CREATE TABLE IF NOT EXISTS `avicoladb`.`Fincas` (
   `idFincas` INT NOT NULL AUTO_INCREMENT,
-  `IdUsuario` INT NULL,
-  `Nombre` VARCHAR(45) NULL,
-  `Direccion` VARCHAR(45) NULL,
+  `IdAvicultor` INT NULL DEFAULT NULL,
+  `Nombre` VARCHAR(45) NULL DEFAULT NULL,
+  `Direccion` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`idFincas`),
-  INDEX `Cedula_idx` (`IdUsuario` ASC) VISIBLE,
-  CONSTRAINT `IdUsuario_Fk`
-    FOREIGN KEY (`IdUsuario`)
-    REFERENCES `AvicolaDB`.`Usuarios` (`IdUsuario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  INDEX `Cedula_idx` (`IdAvicultor` ASC) VISIBLE,
+  CONSTRAINT `IdAvicultor_Fk`
+    FOREIGN KEY (`IdAvicultor`)
+    REFERENCES `avicoladb`.`Avicultores` (`IdAvicultor`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
 
 
 -- -----------------------------------------------------
