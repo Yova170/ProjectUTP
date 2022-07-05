@@ -14,15 +14,22 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE SCHEMA IF NOT EXISTS `AvicolaDB` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci ;
 USE `AvicolaDB` ;
 
+
 -- -----------------------------------------------------
 -- Table `AvicolaDB`.`Fincas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `AvicolaDB`.`Fincas` (
   `idFincas` INT NOT NULL AUTO_INCREMENT,
-  `Cedula` VARCHAR(45) NULL,
+  `IdUsuario` INT NULL,
   `Nombre` VARCHAR(45) NULL,
   `Direccion` VARCHAR(45) NULL,
-  PRIMARY KEY (`idFincas`))
+  PRIMARY KEY (`idFincas`),
+  INDEX `Cedula_idx` (`IdUsuario` ASC) VISIBLE,
+  CONSTRAINT `IdUsuario_Fk`
+    FOREIGN KEY (`IdUsuario`)
+    REFERENCES `AvicolaDB`.`Usuarios` (`IdUsuario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

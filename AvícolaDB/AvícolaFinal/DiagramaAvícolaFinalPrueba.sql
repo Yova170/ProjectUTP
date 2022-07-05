@@ -15,32 +15,33 @@ CREATE SCHEMA IF NOT EXISTS `avicoladb` DEFAULT CHARACTER SET utf8 COLLATE utf8_
 USE `avicoladb` ;
 
 -- -----------------------------------------------------
--- Table `avicoladb`.`avicultores`
+-- Table `avicoladb`.`Usuarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`avicultores` (
-  `Cedula` VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS `avicoladb`.`Usuarios` (
+  `IdUsuario` INT NOT NULL AUTO_INCREMENT,
+  `Cedula` VARCHAR(45) NULL,
   `Nombre` VARCHAR(45) NULL DEFAULT NULL,
   `Apellido` VARCHAR(45) NULL DEFAULT NULL,
   `Password` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`Cedula`))
+  PRIMARY KEY (`IdUsuario`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
 
 
 -- -----------------------------------------------------
--- Table `avicoladb`.`fincas`
+-- Table `avicoladb`.`Fincas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`fincas` (
+CREATE TABLE IF NOT EXISTS `avicoladb`.`Fincas` (
   `idFincas` INT NOT NULL AUTO_INCREMENT,
-  `Cedula` VARCHAR(45) NULL DEFAULT NULL,
+  `IdUsuario` VARCHAR(45) NULL DEFAULT NULL,
   `Nombre` VARCHAR(45) NULL DEFAULT NULL,
   `Direccion` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`idFincas`),
-  INDEX `Cedula_idx` (`Cedula` ASC) VISIBLE,
-  CONSTRAINT `Cedula`
-    FOREIGN KEY (`Cedula`)
-    REFERENCES `avicoladb`.`avicultores` (`Cedula`))
+  INDEX `Cedula_idx` (`IdUsuario` ASC) VISIBLE,
+  CONSTRAINT `IdUsuario_Fk`
+    FOREIGN KEY (`IdUsuario`)
+    REFERENCES `avicoladb`.`Usuarios` (`IdUsuario`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
@@ -59,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`galpones` (
   INDEX `idFincas_idx` (`IdFinca` ASC) VISIBLE,
   CONSTRAINT `idFincas_idfk`
     FOREIGN KEY (`IdFinca`)
-    REFERENCES `avicoladb`.`fincas` (`idFincas`))
+    REFERENCES `avicoladb`.`Fincas` (`idFincas`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
