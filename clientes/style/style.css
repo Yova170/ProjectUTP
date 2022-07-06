@@ -1,0 +1,252 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  border:black 1px;
+}
+
+input:hover [type="submit"]{
+  background-color: #2558ff;
+}
+input[type="submit"] {
+  color: #fff;
+  background: #0098cb;
+  cursor: pointer;
+  text-align: center;
+}
+
+
+input[type="text"] {
+  padding: 15px 32px;;
+  display: inline-block;
+  width: 200px;
+  margin: 10px auto;  
+  border: 0;
+  border-radius: 3px;
+  border: black 1px solid;
+}
+input[type="int"] {
+  padding: 20px 40px;;
+  display: inline-block;
+  width: 200px;
+  margin: 10px auto;  
+  border: 0;
+  border-radius: 3px;
+  border: black 1px solid;
+}
+
+body{
+  background-color: #fff;
+  font-family: 'Roboto';
+  border: 1px  black;
+}
+
+
+
+#tabla {
+  margin: 50px auto;
+  background-color: #fff;
+  text-align: right;
+  
+  overflow-y:scroll;
+  height: 300px;
+  width: 900px;
+}
+#tabla td{
+width: 10;
+height: 10;
+border-collapse: collapse;
+text-align: right;
+}
+#tabla table {
+ width:698x;
+ background-color:lightgray;
+ text-align: right;
+ border-collapse: collapse;
+}
+
+#tabla th{
+position: sticky;
+background-color: #0098cb;
+border-color: #000000 ;
+top: 0px;
+text-align: right;
+border-collapse: collapse;
+}
+#tabla th, td{
+border: solid 1x;
+padding: 4px;
+width: 300px;
+padding: 4px;
+white-space: pre;
+border-collapse: collapse;
+}
+#tabla thead{
+background-color:#0098cb ;
+
+}
+#tabla tr:nth-child(even){
+background-color: #ddd;
+}
+
+#tabla tr:hover td {
+background-color: #bccacf;
+}
+
+#va a{
+  padding: 7px 20px;
+  display: inline-block;
+  color: #fff;
+  background: #0098cb;
+  width: 50px;
+  margin: 8px auto;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  
+}
+
+
+
+
+#as input[type="text"] {
+  padding: 15px 32px;;
+  display: inline-block;
+  width: 200px;
+  margin: 10px auto;  
+  border: 0;
+  border-radius: 3px;
+  border: black 1px solid;
+}
+#as input[type="submit"] {
+  outline: none;
+  padding: 15px;
+  width: 150x;
+  border-radius: 3px;
+  border: 1px solid rgb(0, 0, 0);
+  margin: 20px auto;
+}
+
+select{
+  padding: 15px 32px;
+  display: inline-block;
+  color: #fff;
+  background: #0098cb;
+  background-position: center;
+  width: 250px;
+  margin: 10px auto;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+}
+
+#editarr input, select, option{
+  padding: 15px 32px;;
+  display: inline-block;
+  width: 200px;
+  margin: 10px auto;  
+  border: 0;
+  border-radius: 3px;
+  border: black 1px solid;
+}
+
+
+#tabla1 {
+  margin: 32px auto;
+  background-color: #fff;
+  text-align: right;
+  
+  overflow-y:scroll;
+  height: 64px;
+  width: 900px;
+}
+#tabla1 td{
+width: 10;
+height: 10;
+border-collapse: collapse;
+text-align: right;
+}
+#tabla1 table {
+ width:698x;
+ background-color:lightgray;
+ text-align: right;
+ border-collapse: collapse;
+}
+
+#tabla1 th{
+position: sticky;
+background-color: #0098cb;
+border-color: #000000 ;
+top: 0px;
+text-align: right;
+border-collapse: collapse;
+}
+#tabla1 th, td{
+border: solid 1x;
+padding: 4px;
+width: 300px;
+padding: 4px;
+white-space: pre;
+border-collapse: collapse;
+}
+#tabla1 thead{
+background-color:#0098cb ;
+
+}
+#tabla1 tr:nth-child(even){
+background-color: #ddd;
+}
+
+#tabla1 tr:hover td {
+background-color: #bccacf;
+}
+
+#editar select, form{
+display: inline;
+}
+
+
+input[type="text"], select{
+
+outline: none;
+padding: 20px;
+display: block;
+width: 300px;
+border-radius: 3px;
+border: 1px solid rgb(0, 0, 0);
+margin: 20px auto;
+}
+
+#ali div {
+background: rgb(255, 255, 255);
+display: flergb(255, 255, 255);
+display: inline-block;
+
+}
+
+#botones  form,  input[type="submit"] {
+color: #fff;
+padding: 20px;
+background: #0098cb;
+cursor: pointer;
+text-align: center;
+}
+
+
+#a1 a {
+  padding: 7px 20px;
+  display: inline-block;
+  color: #fff;
+  background: #0098cb;
+  width: 50px;
+  margin: 8px auto;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none
+
+}
