@@ -9,7 +9,7 @@
                         <li><a href="login.php" class="select">INICIO</a></li>
                         <li><a href="#">INVENTARIO</a></li>
                         <li><a href="#">COMPRAS</a></li>
-                        <li><a href="#">PROVEEDORES</a>
+                        <li><a href="submenu.php">PROVEEDORES</a>
                            
                         </li>
                            
