@@ -37,6 +37,11 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`Fincas` (
   `IdAvicultor` INT NULL DEFAULT NULL,
   `Nombre` VARCHAR(45) NULL DEFAULT NULL,
   `Direccion` VARCHAR(45) NULL DEFAULT NULL,
+  `Latitud` VARCHAR(45) NULL,
+  `Longitud` VARCHAR(45) NULL,
+  `Provincia` VARCHAR(45) NULL,
+  `Distrito` VARCHAR(45) NULL,
+  `Corregimiento` VARCHAR(45) NULL,
   PRIMARY KEY (`idFincas`),
   INDEX `Cedula_idx` (`IdAvicultor` ASC) VISIBLE,
   CONSTRAINT `IdAvicultor_Fk`
@@ -67,20 +72,36 @@ COLLATE = utf8_spanish_ci;
 
 
 -- -----------------------------------------------------
+-- Table `avicoladb`.`Razas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `avicoladb`.`Razas` (
+  `idRazas` INT NOT NULL AUTO_INCREMENT,
+  `Raza` VARCHAR(45) NULL,
+  PRIMARY KEY (`idRazas`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `avicoladb`.`gallinas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`gallinas` (
   `IdGallina` INT NOT NULL AUTO_INCREMENT,
   `Codigo` INT NOT NULL,
   `IdGalpon` INT NOT NULL,
-  `Raza` VARCHAR(45) NULL DEFAULT NULL,
+  `IdRaza` INT NULL DEFAULT NULL,
   `FechaNacimiento` DATE NULL DEFAULT NULL,
   `Estatus` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`IdGallina`, `Codigo`),
   INDEX `IdGalpon_idx` (`IdGalpon` ASC) VISIBLE,
+  INDEX `IdRaza_idx` (`IdRaza` ASC) VISIBLE,
   CONSTRAINT `IdGalpon`
     FOREIGN KEY (`IdGalpon`)
-    REFERENCES `avicoladb`.`galpones` (`IdGalpon`))
+    REFERENCES `avicoladb`.`galpones` (`IdGalpon`),
+  CONSTRAINT `IdRaza`
+    FOREIGN KEY (`IdRaza`)
+    REFERENCES `avicoladb`.`Razas` (`idRazas`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
@@ -108,13 +129,14 @@ COLLATE = utf8_spanish_ci;
 -- Table `avicoladb`.`actividadponedero`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`actividadponedero` (
-  `FechaActividad` DATETIME NOT NULL,
+  `IdActividad` INT NOT NULL AUTO_INCREMENT,
+  `FechaActividad` DATE NOT NULL,
   `IdGallina` INT NOT NULL,
   `IdGallinaCodigo` INT NOT NULL,
   `IdPonedero` INT NOT NULL,
   `HoraEntrada` TIME NOT NULL,
   `HoraSalida` TIME NOT NULL,
-  PRIMARY KEY (`FechaActividad`),
+  PRIMARY KEY (`IdActividad`),
   INDEX `IdGallina_idfk_idx` (`IdGallina` ASC) VISIBLE,
   INDEX `IdPonedero_idfk_idx` (`IdPonedero` ASC) VISIBLE,
   CONSTRAINT `IdGallina_idfk`
@@ -135,6 +157,7 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`alimentos` (
   `IdAlimento` INT NOT NULL AUTO_INCREMENT,
   `NombreAlimento` VARCHAR(45) NOT NULL,
   `CantidadDisponible` INT NOT NULL,
+  `Marca` VARCHAR(45) NULL,
   PRIMARY KEY (`IdAlimento`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -278,10 +301,11 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`diarioingresos` (
   `Detalle` VARCHAR(45) NULL DEFAULT NULL,
   `Fecha` DATE NULL DEFAULT NULL,
   `GeneralCredit` VARCHAR(45) NULL DEFAULT NULL,
-  `Banco` VARCHAR(45) NULL DEFAULT NULL,
+  `generalc` VARCHAR(45) NULL DEFAULT NULL,
   `CtsCob` VARCHAR(45) NULL DEFAULT NULL,
   `ITBMS` VARCHAR(45) NULL DEFAULT NULL,
   `Ventas` VARCHAR(45) NULL DEFAULT NULL,
+  `GeneralD` VARCHAR(45) NULL,
   PRIMARY KEY (`idDiarioIngresos`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -367,7 +391,7 @@ COLLATE = utf8_spanish_ci;
 CREATE TABLE IF NOT EXISTS `avicoladb`.`galponalimento` (
   `IdGalpon` INT NOT NULL AUTO_INCREMENT,
   `IdAlimento` INT NOT NULL,
-  `Fecha` VARCHAR(45) NOT NULL,
+  `Fecha` DATE NOT NULL,
   `Proposito` VARCHAR(45) NOT NULL,
   `CantidadSuministrada` INT NULL DEFAULT NULL,
   INDEX `IdAlimento_idx` (`IdAlimento` ASC) VISIBLE,
@@ -713,6 +737,7 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`productos` (
   `Imagen` VARCHAR(45) NULL DEFAULT NULL,
   `Precio` FLOAT NULL DEFAULT NULL,
   `Descripcion` VARCHAR(45) NULL DEFAULT NULL,
+  `Cantidad` VARCHAR(45) NULL,
   PRIMARY KEY (`IdProductos`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -749,6 +774,7 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`ventas` (
   `IdProducto` INT NULL DEFAULT NULL,
   `FechaVenta` DATE NULL DEFAULT NULL,
   `Cantidad` INT NULL DEFAULT NULL,
+  `Monto` VARCHAR(45) NULL,
   INDEX `IdCliente_idx` (`IdCliente` ASC) VISIBLE,
   INDEX `IdProducto_idx` (`IdProducto` ASC) VISIBLE,
   CONSTRAINT `IdCliente_idfkd`
