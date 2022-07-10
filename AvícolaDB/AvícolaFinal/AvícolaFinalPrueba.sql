@@ -15,38 +15,19 @@ CREATE SCHEMA IF NOT EXISTS `avicoladb` DEFAULT CHARACTER SET utf8 COLLATE utf8_
 USE `avicoladb` ;
 
 -- -----------------------------------------------------
--- Table `avicoladb`.`Avicultores`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`Avicultores` (
-  `IdAvicultor` INT NOT NULL AUTO_INCREMENT,
-  `Cedula` VARCHAR(45) NULL,
-  `Nombre` VARCHAR(45) NULL DEFAULT NULL,
-  `Apellido` VARCHAR(45) NULL DEFAULT NULL,
-  `Password` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`IdAvicultor`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_spanish_ci;
-
-
--- -----------------------------------------------------
 -- Table `avicoladb`.`Fincas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`Fincas` (
-  `idFincas` INT NOT NULL AUTO_INCREMENT,
-  `IdAvicultor` INT NULL DEFAULT NULL,
+  `idFinca` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NULL DEFAULT NULL,
+  `Tamaño` VARCHAR(45) NULL,
   `Direccion` VARCHAR(45) NULL DEFAULT NULL,
   `Latitud` VARCHAR(45) NULL,
   `Longitud` VARCHAR(45) NULL,
   `Provincia` VARCHAR(45) NULL,
   `Distrito` VARCHAR(45) NULL,
   `Corregimiento` VARCHAR(45) NULL,
-  PRIMARY KEY (`idFincas`),
-  INDEX `Cedula_idx` (`IdAvicultor` ASC) VISIBLE,
-  CONSTRAINT `IdAvicultor_Fk`
-    FOREIGN KEY (`IdAvicultor`)
-    REFERENCES `avicoladb`.`Avicultores` (`IdAvicultor`))
+  PRIMARY KEY (`idFinca`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
@@ -65,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`galpones` (
   INDEX `idFincas_idx` (`IdFinca` ASC) VISIBLE,
   CONSTRAINT `idFincas_idfk`
     FOREIGN KEY (`IdFinca`)
-    REFERENCES `avicoladb`.`Fincas` (`idFincas`))
+    REFERENCES `avicoladb`.`Fincas` (`idFinca`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
@@ -76,7 +57,8 @@ COLLATE = utf8_spanish_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`Razas` (
   `idRazas` INT NOT NULL AUTO_INCREMENT,
-  `Raza` VARCHAR(45) NULL,
+  `NombreRaza` VARCHAR(45) NULL,
+  `Descripción` VARCHAR(45) NULL,
   PRIMARY KEY (`idRazas`))
 ENGINE = InnoDB;
 
@@ -86,12 +68,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`gallinas` (
   `IdGallina` INT NOT NULL AUTO_INCREMENT,
-  `Codigo` INT NOT NULL,
+  `CodigoAño` INT NOT NULL,
   `IdGalpon` INT NOT NULL,
   `IdRaza` INT NULL DEFAULT NULL,
   `FechaNacimiento` DATE NULL DEFAULT NULL,
   `Estatus` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`IdGallina`, `Codigo`),
+  PRIMARY KEY (`IdGallina`, `CodigoAño`),
   INDEX `IdGalpon_idx` (`IdGalpon` ASC) VISIBLE,
   INDEX `IdRaza_idx` (`IdRaza` ASC) VISIBLE,
   CONSTRAINT `IdGalpon`
@@ -130,10 +112,10 @@ COLLATE = utf8_spanish_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`actividadponedero` (
   `IdActividad` INT NOT NULL AUTO_INCREMENT,
-  `FechaActividad` DATE NOT NULL,
-  `IdGallina` INT NOT NULL,
-  `IdGallinaCodigo` INT NOT NULL,
   `IdPonedero` INT NOT NULL,
+  `IdGallina` INT NOT NULL,
+  `IdGallinaCodigoAño` INT NOT NULL,
+  `FechaActividad` DATE NOT NULL,
   `HoraEntrada` TIME NOT NULL,
   `HoraSalida` TIME NOT NULL,
   PRIMARY KEY (`IdActividad`),
@@ -159,6 +141,28 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`alimentos` (
   `CantidadDisponible` INT NOT NULL,
   `Marca` VARCHAR(45) NULL,
   PRIMARY KEY (`IdAlimento`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `avicoladb`.`Avicultores`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `avicoladb`.`Avicultores` (
+  `IdAvicultor` INT NOT NULL AUTO_INCREMENT,
+  `IdFinca` INT NOT NULL,
+  `Cedula` VARCHAR(45) NULL,
+  `Nombre` VARCHAR(45) NULL DEFAULT NULL,
+  `Apellido` VARCHAR(45) NULL DEFAULT NULL,
+  `Password` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IdAvicultor`),
+  INDEX `IdFinca_Fk_idx` (`IdFinca` ASC) VISIBLE,
+  CONSTRAINT `IdFinca_Fk`
+    FOREIGN KEY (`IdFinca`)
+    REFERENCES `avicoladb`.`Fincas` (`idFinca`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
@@ -358,7 +362,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `avicoladb`.`medicamentos` (
   `IdMedicamento` INT NOT NULL AUTO_INCREMENT,
   `NombreMedicamento` VARCHAR(45) NULL DEFAULT NULL,
-  `CantidadDisponible` INT NULL DEFAULT NULL,
+  `CantidadDisponible` FLOAT NULL DEFAULT NULL,
   PRIMARY KEY (`IdMedicamento`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -372,6 +376,8 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`gallina_medicamento` (
   `IdGallina` INT NOT NULL,
   `IdMedicamento` INT NOT NULL AUTO_INCREMENT,
   `FechaAdministracion` DATE NULL DEFAULT NULL,
+  `CantidadSuministrada` FLOAT NULL,
+  `Comentario` VARCHAR(45) NULL,
   INDEX `IdGallina_idx` (`IdGallina` ASC) VISIBLE,
   INDEX `IdMedicamento_idx` (`IdMedicamento` ASC) VISIBLE,
   CONSTRAINT `IdGallina`
@@ -386,9 +392,9 @@ COLLATE = utf8_spanish_ci;
 
 
 -- -----------------------------------------------------
--- Table `avicoladb`.`galponalimento`
+-- Table `avicoladb`.`galpon_alimento`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`galponalimento` (
+CREATE TABLE IF NOT EXISTS `avicoladb`.`galpon_alimento` (
   `IdGalpon` INT NOT NULL AUTO_INCREMENT,
   `IdAlimento` INT NOT NULL,
   `Fecha` DATE NOT NULL,
@@ -737,7 +743,7 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`productos` (
   `Imagen` VARCHAR(45) NULL DEFAULT NULL,
   `Precio` FLOAT NULL DEFAULT NULL,
   `Descripcion` VARCHAR(45) NULL DEFAULT NULL,
-  `Cantidad` VARCHAR(45) NULL,
+  `Cantidad` INT NULL,
   PRIMARY KEY (`IdProductos`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -748,16 +754,17 @@ COLLATE = utf8_spanish_ci;
 -- Table `avicoladb`.`posturas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`posturas` (
-  `Fecha` DATE NOT NULL,
-  `IdProducto` INT NOT NULL,
-  `IdGalpon` INT NULL DEFAULT NULL,
+  `IdPostura` INT NOT NULL AUTO_INCREMENT,
+  `IdProducto` INT NULL,
+  `IdPonedero` INT NULL DEFAULT NULL,
+  `Fecha` DATE NULL,
   `Cantidad` INT NOT NULL,
-  PRIMARY KEY (`Fecha`),
-  INDEX `IdGalpon_idx` (`IdGalpon` ASC) VISIBLE,
+  PRIMARY KEY (`IdPostura`),
   INDEX `IdProducto_idx` (`IdProducto` ASC) VISIBLE,
-  CONSTRAINT `IdGalponPosturas_idfk`
-    FOREIGN KEY (`IdGalpon`)
-    REFERENCES `avicoladb`.`galpones` (`IdGalpon`),
+  INDEX `IdPonedero_idfk_idx` (`IdPonedero` ASC) VISIBLE,
+  CONSTRAINT `IdPonedero_idfk`
+    FOREIGN KEY (`IdPonedero`)
+    REFERENCES `avicoladb`.`ponederos` (`IdPonedero`),
   CONSTRAINT `IdProducto_idfk`
     FOREIGN KEY (`IdProducto`)
     REFERENCES `avicoladb`.`productos` (`IdProductos`))
