@@ -138,7 +138,7 @@ COLLATE = utf8_spanish_ci;
 CREATE TABLE IF NOT EXISTS `avicoladb`.`alimentos` (
   `IdAlimento` INT NOT NULL AUTO_INCREMENT,
   `NombreAlimento` VARCHAR(45) NOT NULL,
-  `CantidadDisponible` INT NOT NULL,
+  `CantidadInventario` INT NOT NULL,
   `Marca` VARCHAR(45) NULL,
   PRIMARY KEY (`IdAlimento`))
 ENGINE = InnoDB
@@ -755,8 +755,8 @@ COLLATE = utf8_spanish_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`posturas` (
   `IdPostura` INT NOT NULL AUTO_INCREMENT,
-  `IdProducto` INT NULL,
   `IdPonedero` INT NULL DEFAULT NULL,
+  `IdProducto` INT NULL,
   `Fecha` DATE NULL,
   `Cantidad` INT NOT NULL,
   PRIMARY KEY (`IdPostura`),
@@ -781,7 +781,6 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`ventas` (
   `IdProducto` INT NULL DEFAULT NULL,
   `FechaVenta` DATE NULL DEFAULT NULL,
   `Cantidad` INT NULL DEFAULT NULL,
-  `Monto` VARCHAR(45) NULL,
   INDEX `IdCliente_idx` (`IdCliente` ASC) VISIBLE,
   INDEX `IdProducto_idx` (`IdProducto` ASC) VISIBLE,
   CONSTRAINT `IdCliente_idfkd`
