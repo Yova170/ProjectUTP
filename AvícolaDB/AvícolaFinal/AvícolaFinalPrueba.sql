@@ -763,7 +763,7 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`posturas` (
   PRIMARY KEY (`IdPostura`),
   INDEX `IdProducto_idx` (`IdProducto` ASC) VISIBLE,
   INDEX `IdPonedero_idfk_idx` (`IdPonedero` ASC) VISIBLE,
-  CONSTRAINT `IdPonedero_idfk`
+  CONSTRAINT `IdPonedero_idfk2`
     FOREIGN KEY (`IdPonedero`)
     REFERENCES `avicoladb`.`ponederos` (`IdPonedero`),
   CONSTRAINT `IdProducto_idfk`
