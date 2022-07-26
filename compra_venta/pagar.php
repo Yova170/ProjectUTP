@@ -17,16 +17,36 @@
             $total= $total+($producto['PRECIO']*$producto['CANTIDAD']);
         }
 
-        $sentencia=$pdo->prepare("INSERT INTO `ventas` (`IdVenta`, `ClaveTrans`, `Fecha`, `Correo`, `Total`, `Estado`, `cantidad`, `IdProducto`) 
-        VALUES (NULL,:ClaveTrans, NOW() ,:Correo,:Total, 'Pendiente',:cantidad,:IdProducto);");
+        $sentencia=$pdo->prepare("INSERT INTO `ventas` (`IdVenta`, `ClaveTrans`, `Fecha`, `Correo`, `Total`, `Estado`) 
+        VALUES (NULL,:ClaveTrans, NOW() ,:Correo,:Total, 'Pendiente');");
 
         $sentencia->bindParam(":ClaveTrans",$SID);
         $sentencia->bindParam(":Correo",$Correo);
         $sentencia->bindParam(":Total",$total);
-        $sentencia->bindParam(":cantidad",$producto['CANTIDAD']);
-        $sentencia->bindParam(":IdProducto",$producto['ID']);
-
+        //$sentencia->bindParam(":cantidad",$producto['CANTIDAD']);
+        //$sentencia->bindParam(":IdProducto",$producto['ID']);
         $sentencia->execute();
+        $idVenta= $pdo->lastInsertId();
+
+        
+        
+        foreach($_SESSION['COMPRA'] as $indice=>$producto){
+                //$CANTIDAD=$_POST['CANTIDAD'];
+
+            $sentencia=$pdo->prepare("INSERT INTO `detalle_ventas` (`IdDetalle_Venta`, `IdFactura`, `IdProducto`, `IdVenta`, `Cantidad`, `Precio`)
+             VALUES (NULL, '',:IdProducto,:IdVenta,:Cantidad, :Precio);");
+
+             $sentencia->bindParam(":IdVenta",$idVenta);
+             $sentencia->bindParam(":IdProducto",$producto['ID']);
+             $sentencia->bindParam(":Cantidad",$producto['CANTIDAD']);
+             $sentencia->bindParam(":Precio",$producto['PRECIO']);
+
+            $sentencia->execute();
+
+            
+        //$sentencia->bindParam(":Total",$total);
+
+        }
        // echo "<h3>".$total."</h3>";
     }
 ?>
