@@ -173,10 +173,9 @@ COLLATE = utf8_spanish_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`clientes` (
   `IdClientes` INT NOT NULL AUTO_INCREMENT,
-  `Nombre` VARCHAR(45) NULL DEFAULT NULL,
+  `NombreCliente` VARCHAR(45) NULL DEFAULT NULL,
   `Direccion` VARCHAR(45) NULL DEFAULT NULL,
   `Telefono` VARCHAR(45) NULL DEFAULT NULL,
-  `Email` VARCHAR(45) NULL,
   PRIMARY KEY (`IdClientes`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -739,13 +738,13 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `avicoladb`.`productos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `avicoladb`.`productos` (
-  `IdProducto` INT NOT NULL AUTO_INCREMENT,
+  `IdProductos` INT NOT NULL AUTO_INCREMENT,
   `NombreProducto` VARCHAR(45) NULL DEFAULT NULL,
   `Imagen` VARCHAR(45) NULL DEFAULT NULL,
   `Precio` FLOAT NULL DEFAULT NULL,
   `Descripcion` VARCHAR(45) NULL DEFAULT NULL,
-  `Stock` INT NULL,
-  PRIMARY KEY (`IdProducto`))
+  `Cantidad` INT NULL,
+  PRIMARY KEY (`IdProductos`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
@@ -763,79 +762,33 @@ CREATE TABLE IF NOT EXISTS `avicoladb`.`posturas` (
   PRIMARY KEY (`IdPostura`),
   INDEX `IdProducto_idx` (`IdProducto` ASC) VISIBLE,
   INDEX `IdPonedero_idfk_idx` (`IdPonedero` ASC) VISIBLE,
-  CONSTRAINT `IdPonedero_idfk2`
+  CONSTRAINT `IdPonedero_idfk`
     FOREIGN KEY (`IdPonedero`)
     REFERENCES `avicoladb`.`ponederos` (`IdPonedero`),
   CONSTRAINT `IdProducto_idfk`
     FOREIGN KEY (`IdProducto`)
-    REFERENCES `avicoladb`.`productos` (`IdProducto`))
+    REFERENCES `avicoladb`.`productos` (`IdProductos`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
 
 
 -- -----------------------------------------------------
--- Table `avicoladb`.`FormaPagos`
+-- Table `avicoladb`.`ventas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`FormaPagos` (
-  `IdMetPago` INT NOT NULL AUTO_INCREMENT,
-  `NombreFormaPago` VARCHAR(45) NULL DEFAULT NULL,
-  `Detalle` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`IdMetPago`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_spanish_ci;
-
-
--- -----------------------------------------------------
--- Table `avicoladb`.`Facturas`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`Facturas` (
-  `IdFactura` INT NOT NULL AUTO_INCREMENT,
-  `IdCliente` INT NULL DEFAULT NULL,
-  `IdMetPago` INT NULL DEFAULT NULL,
-  `Fecha` DATETIME NULL DEFAULT NULL,
-  `Estado` VARCHAR(45) NULL,
-  PRIMARY KEY (`IdFactura`),
-  INDEX `IdCliente_Fk_idx` (`IdCliente` ASC) VISIBLE,
-  INDEX `IdFormaPago_idx` (`IdMetPago` ASC) VISIBLE,
-  CONSTRAINT `IdCliente_Fk`
-    FOREIGN KEY (`IdCliente`)
-    REFERENCES `avicoladb`.`clientes` (`IdClientes`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `IdMetPago`
-    FOREIGN KEY (`IdMetPago`)
-    REFERENCES `avicoladb`.`FormaPagos` (`IdMetPago`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_spanish_ci;
-
-
--- -----------------------------------------------------
--- Table `avicoladb`.`Detalles_Ventas`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `avicoladb`.`Detalles_Ventas` (
-  `IdDetalle_Venta` INT NOT NULL AUTO_INCREMENT,
-  `IdFactura` INT NULL DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `avicoladb`.`ventas` (
+  `IdCliente` INT NOT NULL AUTO_INCREMENT,
   `IdProducto` INT NULL DEFAULT NULL,
+  `FechaVenta` DATE NULL DEFAULT NULL,
   `Cantidad` INT NULL DEFAULT NULL,
-  `Precio` FLOAT NULL,
-  PRIMARY KEY (`IdDetalle_Venta`),
-  INDEX `IdProducto_fk_idx` (`IdProducto` ASC) VISIBLE,
-  INDEX `IdFactura_fk_idx` (`IdFactura` ASC) VISIBLE,
-  CONSTRAINT `IdProducto_fk`
+  INDEX `IdCliente_idx` (`IdCliente` ASC) VISIBLE,
+  INDEX `IdProducto_idx` (`IdProducto` ASC) VISIBLE,
+  CONSTRAINT `IdCliente_idfkd`
+    FOREIGN KEY (`IdCliente`)
+    REFERENCES `avicoladb`.`clientes` (`IdClientes`),
+  CONSTRAINT `IdProducto_idfdk`
     FOREIGN KEY (`IdProducto`)
-    REFERENCES `avicoladb`.`productos` (`IdProducto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `IdFactura_fk`
-    FOREIGN KEY (`IdFactura`)
-    REFERENCES `avicoladb`.`Facturas` (`IdFactura`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `avicoladb`.`productos` (`IdProductos`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_spanish_ci;
