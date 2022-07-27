@@ -1,4 +1,6 @@
+
 <?php
+/*
     $servidor="mysql:dbname=".BD.";host=".SERVIDOR;
 
     try
@@ -11,4 +13,5 @@
     }catch(PDOException $e){
      //   echo "<script> alert('Error...')</script>";
     }
+    */
 ?>
